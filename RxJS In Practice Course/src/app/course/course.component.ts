@@ -26,7 +26,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    const courseId = this.route.params["id"];
+    const courseId = this.route.snapshot.params["id"];
 
     this.course$ = createHttpObservable(`/api/courses/${courseId}`);
     
