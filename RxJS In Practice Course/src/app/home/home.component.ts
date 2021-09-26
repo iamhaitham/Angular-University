@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Course } from "../model/course";
-import { interval, Observable, of, timer } from "rxjs";
+import { interval, Observable, of, throwError, timer } from "rxjs";
 import {
   catchError,
   delayWhen,
@@ -23,11 +23,15 @@ export class HomeComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    const http$:Observable<Course[]> = createHttpObservable("/api/courses");
+    const http$: Observable<Course[]> = createHttpObservable("/api/courses");
 
     const courses$ = http$.pipe(
-      tap(()=>console.log("HTTP Request executed")),
+      tap(() => console.log("HTTP Request executed")),
       map((coursesInJSON: Course[]) => Object.values(coursesInJSON["payload"])),
+      catchError((err) => {
+        console.log("Error occurred",err);
+        return throwError(err)
+      }),
       shareReplay(),
     );
 

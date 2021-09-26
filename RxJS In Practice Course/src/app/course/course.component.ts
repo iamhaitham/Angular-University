@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Course } from "../model/course";
-import { concat, fromEvent, Observable } from "rxjs";
+import { concat, fromEvent, observable, Observable } from "rxjs";
 import { Lesson } from "../model/lesson";
 import { createHttpObservable } from "../util";
 import {
@@ -19,6 +19,7 @@ import {
   mergeMap,
   switchMap,
 } from "rxjs/operators";
+import { mixinInitialized } from "@angular/material/core";
 
 @Component({
   selector: "course",
