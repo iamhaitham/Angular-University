@@ -4,6 +4,7 @@ import { interval, Observable, of, throwError, timer } from "rxjs";
 import {
   catchError,
   delayWhen,
+  finalize,
   map,
   retryWhen,
   shareReplay,
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
         console.log("Error occurred",err);
         return throwError(err)
       }),
+      finalize(()=>console.log("Finalize executed..")),
       shareReplay(),
     );
 
