@@ -57,7 +57,8 @@ const routes: Routes = [
     AuthModule.forRoot(),
     StoreModule.forRoot(fromApp.reducers, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    StoreModule.forFeature('app', fromApp.reducers, { metaReducers: fromApp.metaReducers })
+    StoreModule.forFeature('app', fromApp.reducers, { metaReducers: fromApp.metaReducers }),
+    EffectsModule.forRoot([]),
   ],
   bootstrap: [AppComponent]
 })
