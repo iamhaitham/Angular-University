@@ -23,6 +23,7 @@ import {EntityDataModule} from '@ngrx/data';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import * as fromApp from './reducers';
 import { AuthGuard } from './auth/auth.guard';
+import { AuthEffects } from './auth/auth.effects';
 
 
 const routes: Routes = [
@@ -58,7 +59,7 @@ const routes: Routes = [
     StoreModule.forRoot(fromApp.reducers, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     StoreModule.forFeature('app', fromApp.reducers, { metaReducers: fromApp.metaReducers }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AuthEffects]),
   ],
   bootstrap: [AppComponent]
 })
