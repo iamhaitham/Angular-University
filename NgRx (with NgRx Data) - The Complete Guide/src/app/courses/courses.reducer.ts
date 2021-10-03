@@ -1,5 +1,5 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Course } from './model/course';
+import { compareCourses, Course } from './model/course';
 import { createReducer, on } from '@ngrx/store';
 import { CourseActions } from './action-type';
 
@@ -9,7 +9,9 @@ export interface CoursesState extends EntityState<Course> {
   entities: { [id: number]: Course };
 }
 
-export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>();
+export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>({
+  sortComparer: compareCourses,
+});
 
 export const initialCoursesState: EntityState<Course> = adapter.getInitialState({
   // additional entity state properties
