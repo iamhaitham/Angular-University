@@ -2,16 +2,25 @@ import { CalculatorService } from "./calculator.service";
 import { LoggerService } from "./logger.service";
 
 describe("CalculatorService", function () {
+  let calculator: CalculatorService, loggerSpy: any;
+
+  beforeEach(() => {
+    console.log("Calling before test");
+    loggerSpy = jasmine.createSpyObj("LoggerService", ["log"]);
+    calculator = new CalculatorService(loggerSpy);
+  });
+
   it("should add two numbers", function () {
-    const logger = jasmine.createSpyObj("LoggerService",["log"]);
-    const calculator = new CalculatorService(logger);
+    console.log("Add test");
     const result = calculator.add(2, 2);
     expect(result).toBe(4);
-    expect(logger.log).toHaveBeenCalledTimes(1);
+    expect(loggerSpy.log).toHaveBeenCalledTimes(1);
   });
+
   it("should add two numbers", function () {
-    const calculator = new CalculatorService(new LoggerService());
+    console.log("Subtract test");
     const result = calculator.subtract(2, 2);
     expect(result).toBe(0, "unexpected subtraction result");
+    expect(loggerSpy.log).toHaveBeenCalledTimes(1);
   });
 });
