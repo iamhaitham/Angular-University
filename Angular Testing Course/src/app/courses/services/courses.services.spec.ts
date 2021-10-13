@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -58,6 +58,26 @@ fdescribe("CoursesService", function () {
     req.flush({
       ...COURSES[12],
       ...changes,
+    });
+  });
+
+  it("should give an error if save course fails", function () {
+    const changes: Partial<Course> = {
+      titles: { description: "Testing Course" },
+    };
+    coursesService.saveCourse(12, changes).subscribe(
+      () => {
+        fail("the save course operation should have failed");
+      },
+      (error: HttpErrorResponse) => {
+        expect(error.status).toBe(500);
+      }
+    );
+    const req = httpTestingController.expectOne("/api/courses/12");
+    expect(req.request.method).toEqual("PUT");
+    req.flush("Save course failed", {
+      status: 500,
+      statusText: "Internal Server Error",
     });
   });
 
