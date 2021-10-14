@@ -12,7 +12,8 @@ import { Test } from "tslint";
 fdescribe("CoursesCardListComponent", () => {
   let component: CoursesCardListComponent;
   let fixture: ComponentFixture<CoursesCardListComponent>;
-  let el: DebugElement;
+  let debugElement: DebugElement;
+  let htmlElement: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -25,7 +26,8 @@ fdescribe("CoursesCardListComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CoursesCardListComponent);
     component = fixture.componentInstance;
-    el = fixture.debugElement;
+    debugElement = fixture.debugElement;
+    htmlElement = debugElement.nativeElement;
   });
 
   it("should create the component", () => {
@@ -34,9 +36,11 @@ fdescribe("CoursesCardListComponent", () => {
 
   it("should display the course list", () => {
     component.courses = setupCourses();
-    const cards = el.queryAll(By.css(".course-card"));
+    fixture.detectChanges();
+    // console.log(htmlElement.outerHTML);
+    const cards = debugElement.queryAll(By.css(".course-card"));
     expect(cards).toBeTruthy("Could not find cards");
-    expect(cards.length).toBe(12 , "Unexpected number of courses")
+    expect(cards.length).toBe(12, "Unexpected number of courses");
   });
 
   it("should display the first course", () => {
