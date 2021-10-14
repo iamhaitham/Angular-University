@@ -29,12 +29,16 @@ fdescribe("HomeComponent", () => {
   let fixture: ComponentFixture<HomeComponent>;
   let debugElement: DebugElement;
   let hTMLElement: HTMLElement;
-  const coursesServiceSpy = jasmine.createSpyObj("CoursesService", [
-    "findAllCourses",
-  ]);
+  let coursesService: any;
+  const beginnerCourses = setupCourses().filter(
+    (course) => course.category == "BEGINNER"
+  );
 
   beforeEach(
     waitForAsync(() => {
+      const coursesServiceSpy = jasmine.createSpyObj("CoursesService", [
+        "findAllCourses",
+      ]);
       TestBed.configureTestingModule({
         imports: [CoursesModule, NoopAnimationsModule],
         providers: [{ provide: CoursesService, useValue: coursesServiceSpy }],
@@ -46,6 +50,7 @@ fdescribe("HomeComponent", () => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
+    coursesService = TestBed.inject(CoursesService);
   });
 
   it("should create the component", () => {
@@ -53,7 +58,10 @@ fdescribe("HomeComponent", () => {
   });
 
   it("should display only beginner courses", () => {
-    pending();
+    coursesService.findAllCourses.and.returnValue(of(beginnerCourses));
+    fixture.detectChanges();
+    const tabs = debugElement.queryAll(By.css(".mat-tab-label")); // IMPORTANT: You might not find the class in the whole repository. However it exists when you use inspect element on the tabs elements
+    expect(tabs.length).toBe(1, "Unexpected number of tabs found");
   });
 
   it("should display only advanced courses", () => {
