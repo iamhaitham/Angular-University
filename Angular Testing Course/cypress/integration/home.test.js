@@ -1,16 +1,18 @@
-describe('Home Page', () => {
-    it('shoud display a list of courses', () => {
+describe("Home Page", () => {
+    it("shoud display a list of courses", () => {
         cy.fixture("courses.json").as("coursesJSON");
         // THE FOLLOWING TWO LINES ARE DEPRECATED AND REPLACED BY cy.intercept():
         // cy.server();
         // cy.route("/api/courses", "@coursesJSON").as("courses");
-        cy.intercept("GET", "/api/courses", { fixture: "courses.json" }).as("courses");
+        cy.intercept("GET", "/api/courses", { fixture: "courses.json" }).as(
+            "courses"
+        );
         cy.visit("/");
         cy.contains("All Courses");
         cy.wait("@courses");
         cy.get("mat-card").should("have.length", 9);
-    })
-})
+    });
+});
 
 
 // describe('Home Page', () => {
